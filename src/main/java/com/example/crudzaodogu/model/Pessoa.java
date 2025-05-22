@@ -2,23 +2,24 @@ package com.example.crudzaodogu.model;
 
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
 
-@Entity(name= "pessoa")
-@Table(name = "pessoa")
-public class pessoa implements UserDetails {
+@Entity(name= "Pessoa")
+@Table(name = "Pessoa")
+public class Pessoa implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String password;
     private String login;
-    private String Role;
+    private EnumRole role;
 
-    public pessoa() {}
+    public Pessoa() {}
 
     public Long getId() {
         return id;
@@ -30,8 +31,11 @@ public class pessoa implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
-    }
+        if (this.role ==EnumRole.ADMIN) return List.of(new SimpleGrantedAuthority("ADMIN"),
+        new SimpleGrantedAuthority("USER"));
+        else return List.of(new SimpleGrantedAuthority("USER"));
+
+     }
 
     public String getPassword() {
         return password;
@@ -39,7 +43,7 @@ public class pessoa implements UserDetails {
 
     @Override
     public String getUsername() {
-        return "";
+        return login;
     }
 
     @Override
@@ -74,11 +78,11 @@ public class pessoa implements UserDetails {
         this.login = login;
     }
 
-    public String getRole() {
-        return Role;
+    public EnumRole getRole() {
+        return role;
     }
 
     public void setRole(String role) {
-        Role = role;
+       this.role = EnumRole.valueOf(role);
     }
 }
