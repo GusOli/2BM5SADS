@@ -12,6 +12,7 @@ public class PessoaService implements UserDetailsService {
 @Autowired
 PessoaRepository pessoaRepository;
 
+
 @Override
 public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
  return pessoaRepository.findByLogin(username);

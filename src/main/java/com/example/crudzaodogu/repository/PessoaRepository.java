@@ -6,5 +6,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public interface PessoaRepository extends JpaRepository<Pessoa, Long> {
 
+
     UserDetails findByLogin(String role);
 }
